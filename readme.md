@@ -38,7 +38,6 @@ Faire fonctionner le nouveau capteur et faire un câblage en utilisant les pins 
 - Le robot peut suivre la ligne en allant tout droit mais il réagit aléatoirement lorsqu'il doit tourner pour se remettre sur la ligne
 
 
-```
 
 ```C
 #include <QTRSensors.h>
@@ -184,7 +183,8 @@ void loop()
 
 - Après modification du programme, le robot fonctionne par moment. Parfois il sait suivre une ligne droite et même des virages. Mais après avoir éteint et rallumé l'alimentation sans modifier le programme, le robot ne suis pas la ligne.
 - De plus, après un test sur une ligne discontinue, le robot n'est pas capable de suivre la ligne tout droit.
-- Voici le programme actuel : 
+- Voici le programme actuel :
+  
 ```C
 #include <QTRSensors.h>
 QTRSensors qtr;

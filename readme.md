@@ -37,8 +37,7 @@ Faire fonctionner le nouveau capteur et faire un câblage en utilisant les pins 
 - Mise en place du capteur : le capteur fonctionne mais le robot ne réagit pas bien
 - Le robot peut suivre la ligne en allant tout droit mais il réagit aléatoirement lorsqu'il doit tourner pour se remettre sur la ligne
 
-- Prochaine séance :
-  Modifier le programme pour que le robot puisse se réajuster sur la ligne lorsqu'il la quitte
+
 ```
 
 ```C
@@ -176,3 +175,6 @@ void loop()
   delay(100);
 }
 ```
+
+- Prochaine séance :
+  Modifier le programme pour que le robot puisse se réajuster sur la ligne lorsqu'il la quitte

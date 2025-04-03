@@ -470,4 +470,4 @@ void loop()
 Prochaine séance : 
 - Ajouter un nouveau capteur
 - Utiliser une carte arduino mega pour ajouter le nouveau capteur
--> modifications du programme et du câblage
+- -> modifications du programme et du câblage

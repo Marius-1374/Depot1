@@ -6,7 +6,8 @@
 - Après avoir effectué ce nouveau câblage, les 2 moteurs tournent et on peut aussi débrancher le câble de la carte arduino qui est assez court et limitait donc les déplacements du robot. Mais les 2 moteurs ne tournent pas à la même vitesse. La solution est d'augmenter dans le programme la vitesse du moteur qui tourne plus lentement jusqu'à ce que leurs vitesses s'équilibrent. Le robot peut donc maintenant se déplacer tout droit mais aussi faire des virages à droite et à gauche.
 
 - Test des 2 moteurs :
-Morceau de code pour controller les 2 moteurs :
+<details>
+  <summary>Morceau de code pour contrôler les 2 moteurs</summary>
 
 ```C
 void setup(){
@@ -27,6 +28,7 @@ delay(2000);
 analogWrite(9, speed1);
 analogWrite(6, speed2);
 ```
+</details>
 
 Prochaine séance : 
 Faire fonctionner le nouveau capteur et faire un câblage en utilisant les pins ENA et ENB du driver moteur.
@@ -37,8 +39,9 @@ Faire fonctionner le nouveau capteur et faire un câblage en utilisant les pins 
 - Mise en place du capteur : le capteur fonctionne mais le robot ne réagit pas bien
 - Le robot peut suivre la ligne en allant tout droit mais il réagit aléatoirement lorsqu'il doit tourner pour se remettre sur la ligne
 
-
-
+<details>
+  <summary>Programme</summary>
+    
 ```C
 #include <QTRSensors.h>
 QTRSensors qtr;
@@ -174,6 +177,7 @@ void loop()
   delay(100);
 }
 ```
+</details>
 
 - Prochaine séance :
   Modifier le programme pour que le robot puisse se réajuster sur la ligne lorsqu'il la quitte
@@ -184,7 +188,10 @@ void loop()
 - Après modification du programme, le robot fonctionne par moment. Parfois il sait suivre une ligne droite et même des virages. Mais après avoir éteint et rallumé l'alimentation sans modifier le programme, le robot ne suis pas la ligne.
 - De plus, après un test sur une ligne discontinue, le robot n'est pas capable de suivre la ligne tout droit.
 - Voici le programme actuel :
-  
+
+<details>
+  <summary>Programme</summary>
+    
 ```C
 #include <QTRSensors.h>
 QTRSensors qtr;
@@ -322,6 +329,8 @@ void loop()
 }
 ```
 
+</details>
+
 - Prochaine séance : faire en sorte que le robot puisse toujours suivre la ligne (au moins la ligne droite), peut-être en changeant le placement du capteur, l'éclairage, le programme...
 
 ## BILAN 3 avril
@@ -329,6 +338,10 @@ void loop()
 - Après quelques modifications du programme, le robot est capable de suivre des lignes droites et des courbes mais pas des virages trop serrés.
 
   Voici le programme actuel :
+
+<details>
+  <summary>Programme</summary>
+  
 ```C
 #include <QTRSensors.h>
 QTRSensors qtr;
@@ -466,6 +479,8 @@ void loop()
   delay(100);
 }
 ```
+
+</details>
 
 Prochaine séance : 
 - Ajouter un nouveau capteur

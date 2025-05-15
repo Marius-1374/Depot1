@@ -475,12 +475,12 @@ Prochaine séance :
 ## Bilan 15 mai
 
 - Réorganisation des câbles du robot : tout est maintenant organisé, les câbles sont moins encombrants et ne se baladent plus partout. Les cartes sont désormais fixées sur le robot.
-- Modifications à venir :
-- modifications du programme : ajouter le mode perdu
-- -> si le robot tourne à droite ou à gauche alors lancer le timer
-- si timer > durée alors basculement vers le mode perdu (la durée sera définie après avoir effectué des tests)
-- L'objectif est dans un premier temps de détecter le mode perdu (dans quels cas il s'active) car il doit s'activer que dans certains cas selon notre demande. 
-Puis dans un second temps de définir les actions du mode perdu, par exemple : s'arrêter, tourner sur lui même.
-De plus, une fois la ligne retrouvée, le robot va devoir rebasculer dans le mode par défaut (suivi de ligne).
+- Modifications à venir :  
+modifications du programme : ajouter le mode perdu
+-> si le robot tourne à droite ou à gauche alors lancer le timer  
+si timer > durée alors basculement vers le mode perdu (la durée sera définie après avoir effectué des tests)  
+L'objectif est dans un premier temps de détecter le mode perdu (dans quels cas il s'active) car il doit s'activer que dans certains cas selon notre demande.  
+Puis dans un second temps de définir les actions du mode perdu, par exemple : s'arrêter, tourner sur lui même.  
+De plus, une fois la ligne retrouvée, le robot va devoir rebasculer dans le mode par défaut (suivi de ligne).  
 
 

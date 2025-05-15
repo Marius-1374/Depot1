@@ -471,3 +471,7 @@ Prochaine séance :
 - Ajouter un nouveau capteur
 - Utiliser une carte arduino mega pour ajouter le nouveau capteur
 - -> modifications du programme et du câblage
+
+modifications prgm à faire : mode perdu
+si tourne droite ou gauche alors lancer timer
+si timer trop grand alors switch vers mode perdu

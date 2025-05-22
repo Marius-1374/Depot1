@@ -496,6 +496,199 @@ modifications du programme : ajouter le mode perdu
 si timer > durée alors basculement vers le mode perdu (la durée sera définie après avoir effectué des tests)  
 L'objectif est dans un premier temps de détecter le mode perdu (dans quels cas il s'active) car il doit s'activer que dans certains cas selon notre demande.  
 Puis dans un second temps de définir les actions du mode perdu, par exemple : s'arrêter, tourner sur lui même.  
-De plus, une fois la ligne retrouvée, le robot va devoir rebasculer dans le mode par défaut (suivi de ligne).  
+De plus, une fois la ligne retrouvée, le robot va devoir rebasculer dans le mode par défaut (suivi de ligne).
 
+## Bilan 22 mai
+
+- écriture du programme en machine à états
+- tests et résolution des problèmes du programme
+- le robot fonctionne avec le programme machine à états en ligne droite et courbe mais pas dans les virages en angle droit
+- Vidéos : https://drive.google.com/drive/folders/1nuJETroWs8m9KIOfO9hq21NwZyQXgBga?usp=sharing
+<details>
+  <summary>Programme</summary>
+  
+```C
+#include <QTRSensors.h>
+QTRSensors qtr;
+
+// Définition des capteurs QTR-MD-04A
+
+const uint8_t SensorCount = 4;
+uint16_t sensorValues[SensorCount];
+
+const int ENA = 9;
+const int IN1 = 8;
+const int IN2 = 7;
+const int ENB = 10;
+const int IN3 = 6;
+const int IN4 = 5;
+
+int speedMotor = 80;  // Vitesse moteur (0-255)
+
+// définition des états
+
+int centre = 0;
+int LigneDroite = 0;
+int LigneGauche = 0;
+
+void setup() {
+
+  pinMode(13, OUTPUT);
+
+  Serial.begin(9600);
+  // Optional: wait for some input from the user, such as a button press.
+  // Initialize the sensors.
+  // In this example we have three sensors on pins A0 - A2.
+  qtr.setTypeRC();  // or setTypeAnalog()
+  qtr.setSensorPins((const uint8_t[]) {
+    A1, A2, A3, A4
+  },
+  4);
+  qtr.setEmitterPin(2);
+
+  // Optional: change parameters like RC timeout, set an emitter control pin...
+  // Then start the calibration phase and move the sensors over both reflectance
+  // extremes they will encounter in your application. This calibration should
+  // take about 5 seconds (250 iterations * 20 ms per iteration).
+  //
+  // Passing a QTRReadMode to calibrate() is optional; it should match the mode
+  // you plan to use when reading the sensors.
+  for (uint8_t i = 0; i < 250; i++) {
+    qtr.calibrate();
+    delay(20);
+  }
+  // Optional: signal that the calibration phase is now over and wait for
+  // further input from the user, such as a button press.
+
+
+
+  // Configuration des moteurs
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+
+
+  int speedMotorGauche = 80;  // Vitesse moteur gauche (0-255)
+  int speedMotorDroit = 80;   // Compensation de 80 unités
+  analogWrite(ENA, speedMotor);
+  analogWrite(ENB, speedMotor);
+}
+
+// Fonction pour lire la position de la ligne
+int lirePositionLigne() {
+  return qtr.readLineBlack(sensorValues);
+}
+
+// Fonctions de mouvement
+void avancer() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void tournerGauche() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void tournerDroite() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void arreter() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+
+void loop() {
+
+  digitalWrite(13, LOW);
+
+  uint16_t sensors[4];
+  // Get calibrated sensor values returned in the sensors array, along with the
+  // line position, which will range from 0 to 2000, with 1000 corresponding to
+  // a position under the middle sensor.
+  int16_t position = qtr.readLineBlack(sensors);
+  //Serial.println(position);
+  // If all three sensors see very low reflectance, take some appropriate action
+  // for this  situation.
+  if ((sensors[0] > 750) && (sensors[1] > 750) && (sensors[2] > 750)) {
+    // Do something. Maybe this means we're at the edge of a course or about to
+    // fall off a table, in which case we might want to stop moving, back up,
+    // and turn around.
+    return;
+  }
+
+
+  Serial.print("Position ligne: ");
+  Serial.println(position);
+
+
+  // Définition des changements d'état en fonction des conditions
+  if (position < 600) {
+    LigneDroite = 1;  // Changement d'état
+  } else {
+    LigneDroite = 0;
+  }
+
+  if (position > 1500) {
+    LigneGauche = 1;  // Changement d'état
+  } else {
+    LigneGauche = 0;
+  }
+
+  if (position > 600 && position < 1500) {
+    centre = 1;  // Changement d'état
+  } else {
+    centre = 0;
+  }
+
+  // Définition des actions en fonction des états
+
+  if (LigneDroite == 1) {
+    tournerDroite();  // Ligne à droite → tourner à droite
+    LigneGauche = 0;
+    centre = 0;
+    Serial.println("TourneDroite");
+
+
+  }
+
+  if (LigneGauche == 1) {
+    tournerGauche();  // Ligne à gauche → tourner à gauche
+    LigneDroite = 0;
+    centre = 0;
+    Serial.println("TourneGauche");
+
+  }
+
+  if (centre == 1) {
+    digitalWrite(13, HIGH);
+    avancer();  // Ligne au centre → avancer
+    LigneGauche = 0;
+    LigneDroite = 0;
+    Serial.println("ToutDroit");
+
+  }
+
+
+
+  delay(100);
+}
+
+```
+
+</details>
 

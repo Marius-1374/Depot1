@@ -502,7 +502,7 @@ De plus, une fois la ligne retrouvée, le robot va devoir rebasculer dans le mod
 
 - écriture du programme en machine à états
 - tests et résolution des problèmes du programme
-- le robot fonctionne avec le programme machine à états en ligne droite et courbe mais pas dans les virages en angle droit ou alors mets beaucoup de temps
+- le robot fonctionne avec le programme machine à états en ligne droite et courbe mais pas dans les virages en angle droit ou alors prend beaucoup de temps
 - Vidéos : https://drive.google.com/drive/folders/1nuJETroWs8m9KIOfO9hq21NwZyQXgBga?usp=sharing
 <details>
   <summary>Programme</summary>
